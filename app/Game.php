@@ -30,9 +30,22 @@ final class Game
     {
         Words::getInstance();
 
-        $this->initialize();
+        do {
+            $input = strtoupper(readline("Начнем игру?\nВведите Да[Y] или Нет[N]: \n"));
 
-        $this->play();
+            if ($input === 'Y'){
+                $this->initialize();
+                $this->play();
+            }
+            elseif ($input === 'N'){
+                break;
+            }
+            else{
+                echo "Неизвестная команда\n";
+            }
+        } while (true);
+
+        echo "Игра завершена\n";
     }
 
     private function initialize(): void
@@ -48,11 +61,9 @@ final class Game
         do {
             $playerInput = readline();
 
-            if (str_contains(strtoupper($this->word), strtoupper($playerInput)))
-            {
+            if (str_contains(strtoupper($this->word), strtoupper($playerInput))) {
 
-            }
-            else{
+            } else {
                 $this->errorCount++;
             }
 
@@ -68,7 +79,7 @@ final class Game
             return;
         }
 
-        if (strcmp($this->word, $this->guessWord) === 0){
+        if (strcmp($this->word, $this->guessWord) === 0) {
             $this->gameStatus = GameStatus::WIN;
         }
     }
