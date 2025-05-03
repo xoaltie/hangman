@@ -33,6 +33,7 @@ final class Game
 
         do {
             $input = mb_strtoupper(readline("\nНачнем игру?\nВведите Да[Д] или Нет[Н]: "));
+            $input = mb_strtoupper(readline(PHP_EOL . "Начнем игру?" . PHP_EOL ."Введите Да[Д] или Нет[Н]: "));
 
             if ($input === 'Д') {
                 $this->initialize();
@@ -41,10 +42,12 @@ final class Game
                 break;
             } else {
                 echo "Неизвестная команда\n";
+                echo "Неизвестная команда" . PHP_EOL;
             }
         } while (true);
 
         echo "Игра завершена\n";
+        echo "Игра завершена" . PHP_EOL;
     }
 
     private function initialize(): void
@@ -63,6 +66,7 @@ final class Game
             $this->printGameStats();
 
             $playerInput = mb_strtoupper(readline("\nВведите символ: "));
+            $playerInput = mb_strtoupper(readline(PHP_EOL . "Введите символ: "));
             $this->updateInputHistory($playerInput);
 
             if (str_contains($this->word, $playerInput)) {
@@ -106,6 +110,7 @@ final class Game
     private function printGuessWord(): void
     {
         echo $this->guessWord . "\n";
+        echo $this->guessWord . PHP_EOL;
     }
 
     private function printGameResult(): void
@@ -113,10 +118,12 @@ final class Game
         if ($this->gameStatus === GameStatus::WIN) {
             $this->printGuessWord();
             echo "\nВы победили!\n";
+            echo PHP_EOL . "Вы победили!" . PHP_EOL;
         }
 
         if ($this->gameStatus === GameStatus::LOSE) {
             echo "\nВы проиграли!\n";
+            echo PHP_EOL . "Вы проиграли!" . PHP_EOL;
         }
     }
 
