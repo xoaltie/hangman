@@ -53,14 +53,17 @@ final class Game
         $this->guessWord = implode(array_fill(0, mb_strlen($this->word), '*'));
         $this->errorCount = 0;
         $this->gameStatus = GameStatus::IN_PROGRESS;
+        $this->playerInputHistory = [];
     }
 
     private function play(): void
     {
         do {
             $this->printGuessWord();
+            $this->printPlayerInputHistory();
 
-            $playerInput = mb_strtoupper(readline("Введите символ: "));
+            $playerInput = mb_strtoupper(readline("\nВведите символ: "));
+            $this->updateInputHistory($playerInput);
 
             if (str_contains($this->word, $playerInput)) {
                 $this->updateGuessWord($playerInput);
@@ -115,5 +118,15 @@ final class Game
         if ($this->gameStatus === GameStatus::LOSE) {
             echo "\nВы проиграли!\n";
         }
+    }
+
+    private function updateInputHistory(string $playerInput): void
+    {
+        $this->playerInputHistory[] = $playerInput;
+    }
+
+    private function printPlayerInputHistory(): void
+    {
+        echo "Использованные буквы: " . implode(" ", $this->playerInputHistory);
     }
 }
