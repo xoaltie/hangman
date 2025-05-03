@@ -60,7 +60,7 @@ final class Game
     {
         do {
             $this->printGuessWord();
-            $this->printPlayerInputHistory();
+            $this->printGameStats();
 
             $playerInput = mb_strtoupper(readline("\nВведите символ: "));
             $this->updateInputHistory($playerInput);
@@ -128,5 +128,17 @@ final class Game
     private function printPlayerInputHistory(): void
     {
         echo "Использованные буквы: " . implode(" ", $this->playerInputHistory);
+    }
+
+    private function printPlayerErrors(): void
+    {
+        echo "Кол-во ошибок: " . $this->errorCount;
+    }
+
+    private function printGameStats(): void
+    {
+        $this->printPlayerErrors();
+        echo "\t";
+        $this->printPlayerInputHistory();
     }
 }
