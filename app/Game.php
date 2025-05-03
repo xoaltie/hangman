@@ -128,6 +128,7 @@ final class Game
         }
 
         if ($this->gameStatus === GameStatus::LOSE) {
+            echo "Загаданное слово: " . $this->word . PHP_EOL;
             echo PHP_EOL . "Вы проиграли!" . PHP_EOL;
         }
     }
