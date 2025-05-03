@@ -88,17 +88,16 @@ final class Game
 
     private function updateGuessWord(string $symbol): void
     {
-        $indexes = [];
-        $lastPos = 0;
+        $word = mb_str_split($this->word);
+        $guessWord = mb_str_split($this->guessWord);
 
-        while (($lastPos = mb_strpos($this->word, $symbol, $lastPos)) !== false) {
-            $indexes[] = $lastPos;
-            $lastPos = $lastPos + mb_strlen($symbol);
+        foreach ($word as $key => $value) {
+            if ($value === $symbol) {
+                $guessWord[$key] = $value;
+            }
         }
 
-        foreach ($indexes as $index) {
-            $this->guessWord = substr_replace($this->guessWord, $symbol, $index);
-        }
+        $this->guessWord = implode("", $guessWord);
     }
 
     private function printGuessWord(): void
