@@ -6,6 +6,7 @@ use App\Enums\GameStatus;
 
 final class Game
 {
+    private const int MAX_ERRORS = 6;
     private static ?Game $instance = null;
     private string $word;
     private string $guessWord;
@@ -31,16 +32,14 @@ final class Game
         Words::getInstance();
 
         do {
-            $input = strtoupper(readline("Начнем игру?\nВведите Да[Y] или Нет[N]: \n"));
+            $input = mb_strtoupper(readline("\nНачнем игру?\nВведите Да[Д] или Нет[Н]: "));
 
-            if ($input === 'Y'){
+            if ($input === 'Д') {
                 $this->initialize();
                 $this->play();
-            }
-            elseif ($input === 'N'){
+            } elseif ($input === 'Н') {
                 break;
-            }
-            else{
+            } else {
                 echo "Неизвестная команда\n";
             }
         } while (true);
@@ -50,9 +49,8 @@ final class Game
 
     private function initialize(): void
     {
-        $this->word = Words::getRandomOne();
-        $this->guessWord = implode(array_fill(0, strlen($this->word), '*'));
         $this->word = mb_strtoupper(Words::getRandomOne());
+        $this->guessWord = implode(array_fill(0, mb_strlen($this->word), '*'));
         $this->errorCount = 0;
         $this->gameStatus = GameStatus::IN_PROGRESS;
     }
@@ -60,10 +58,12 @@ final class Game
     private function play(): void
     {
         do {
-            $playerInput = readline();
+            $this->printGuessWord();
 
-            if (str_contains(strtoupper($this->word), strtoupper($playerInput))) {
+            $playerInput = mb_strtoupper(readline("Введите символ: "));
 
+            if (str_contains($this->word, $playerInput)) {
+                $this->updateGuessWord($playerInput);
             } else {
                 $this->errorCount++;
             }
@@ -75,13 +75,34 @@ final class Game
 
     private function checkStatus(): void
     {
-        if ($this->errorCount === 6) {
+        if ($this->errorCount === self::MAX_ERRORS) {
             $this->gameStatus = GameStatus::LOSE;
-            return;
+            echo "\nВы проиграли!\n";
         }
 
         if (strcmp($this->word, $this->guessWord) === 0) {
             $this->gameStatus = GameStatus::WIN;
+            echo "\nВы победили!\n";
         }
+    }
+
+    private function updateGuessWord(string $symbol): void
+    {
+        $indexes = [];
+        $lastPos = 0;
+
+        while (($lastPos = mb_strpos($this->word, $symbol, $lastPos)) !== false) {
+            $indexes[] = $lastPos;
+            $lastPos = $lastPos + mb_strlen($symbol);
+        }
+
+        foreach ($indexes as $index) {
+            $this->guessWord = substr_replace($this->guessWord, $symbol, $index);
+        }
+    }
+
+    private function printGuessWord(): void
+    {
+        echo $this->guessWord . "\n";
     }
 }
