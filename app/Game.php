@@ -71,18 +71,18 @@ final class Game
             $this->checkStatus();
 
         } while ($this->gameStatus === GameStatus::IN_PROGRESS);
+
+        $this->printGameResult();
     }
 
     private function checkStatus(): void
     {
         if ($this->errorCount === self::MAX_ERRORS) {
             $this->gameStatus = GameStatus::LOSE;
-            echo "\nВы проиграли!\n";
         }
 
         if (strcmp($this->word, $this->guessWord) === 0) {
             $this->gameStatus = GameStatus::WIN;
-            echo "\nВы победили!\n";
         }
     }
 
@@ -104,5 +104,17 @@ final class Game
     private function printGuessWord(): void
     {
         echo $this->guessWord . "\n";
+    }
+
+    private function printGameResult(): void
+    {
+        if ($this->gameStatus === GameStatus::WIN) {
+            $this->printGuessWord();
+            echo "\nВы победили!\n";
+        }
+
+        if ($this->gameStatus === GameStatus::LOSE) {
+            echo "\nВы проиграли!\n";
+        }
     }
 }
