@@ -52,6 +52,7 @@ final class Game
     {
         $this->word = Words::getRandomOne();
         $this->guessWord = implode(array_fill(0, strlen($this->word), '*'));
+        $this->word = mb_strtoupper(Words::getRandomOne());
         $this->errorCount = 0;
         $this->gameStatus = GameStatus::IN_PROGRESS;
     }
