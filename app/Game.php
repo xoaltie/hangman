@@ -30,6 +30,7 @@ final class Game
     public function start(): void
     {
         Words::getInstance();
+        HangmanDrawing::getInstance();
 
         do {
             $input = mb_strtoupper(readline(PHP_EOL . "Начнем игру?" . PHP_EOL . "Введите Да[Д] или Нет[Н]: "));
@@ -172,119 +173,23 @@ final class Game
     {
         switch ($this->errorCount) {
             case 1:
-                echo $this->hangmanOneError();
+                HangmanDrawing::stageOne();
                 break;
             case 2:
-                echo $this->hangmanTwoError();
+                HangmanDrawing::stageTwo();
                 break;
             case 3:
-                echo $this->hangmanThreeError();
+                HangmanDrawing::stageThree();
                 break;
             case 4:
-                echo $this->hangmanFourError();
+                HangmanDrawing::stageFour();
                 break;
             case 5:
-                echo $this->hangmanFiveError();
+                HangmanDrawing::stageFive();
                 break;
             case self::MAX_ERRORS:
-                echo $this->hangmanMaxError();
+                HangmanDrawing::stageMax();
                 break;
         }
-    }
-
-    private function hangmanOneError(): string
-    {
-        $hangman = "  __________" . PHP_EOL
-            . " |         |" . PHP_EOL
-            . " |         |" . PHP_EOL
-            . " |" . PHP_EOL
-            . " |" . PHP_EOL
-            . " |" . PHP_EOL
-            . " |" . PHP_EOL
-            . " |" . PHP_EOL
-            . " |" . PHP_EOL
-            . "/|\\" . PHP_EOL . PHP_EOL;
-
-        return $hangman;
-    }
-
-    private function hangmanTwoError(): string
-    {
-        $hangman = "  __________" . PHP_EOL
-            . " |         |" . PHP_EOL
-            . " |         |" . PHP_EOL
-            . " |         O" . PHP_EOL
-            . " |" . PHP_EOL
-            . " |" . PHP_EOL
-            . " |" . PHP_EOL
-            . " |" . PHP_EOL
-            . " |" . PHP_EOL
-            . "/|\\" . PHP_EOL . PHP_EOL;
-
-        return $hangman;
-    }
-
-    private function hangmanThreeError(): string
-    {
-        $hangman = "  __________" . PHP_EOL
-            . " |         |" . PHP_EOL
-            . " |         |" . PHP_EOL
-            . " |         O" . PHP_EOL
-            . " |        /|" . PHP_EOL
-            . " |         |" . PHP_EOL
-            . " | " . PHP_EOL
-            . " |" . PHP_EOL
-            . " |" . PHP_EOL
-            . "/|\\" . PHP_EOL . PHP_EOL;
-
-        return $hangman;
-    }
-
-    private function hangmanFourError(): string
-    {
-        $hangman = "  __________" . PHP_EOL
-            . " |         |" . PHP_EOL
-            . " |         |" . PHP_EOL
-            . " |         O" . PHP_EOL
-            . " |        /|\\" . PHP_EOL
-            . " |         |" . PHP_EOL
-            . " |" . PHP_EOL
-            . " |" . PHP_EOL
-            . " |" . PHP_EOL
-            . "/|\\" . PHP_EOL . PHP_EOL;
-
-        return $hangman;
-    }
-
-    private function hangmanFiveError(): string
-    {
-        $hangman = "  __________" . PHP_EOL
-            . " |         |" . PHP_EOL
-            . " |         |" . PHP_EOL
-            . " |         O" . PHP_EOL
-            . " |        /|\\" . PHP_EOL
-            . " |         |" . PHP_EOL
-            . " |        /" . PHP_EOL
-            . " |" . PHP_EOL
-            . " |" . PHP_EOL
-            . "/|\\" . PHP_EOL . PHP_EOL;
-
-        return $hangman;
-    }
-
-    private function hangmanMaxError(): string
-    {
-        $hangman = "  __________" . PHP_EOL
-            . " |         |" . PHP_EOL
-            . " |         |" . PHP_EOL
-            . " |         O" . PHP_EOL
-            . " |        /|\\" . PHP_EOL
-            . " |         |" . PHP_EOL
-            . " |        / \\" . PHP_EOL
-            . " |" . PHP_EOL
-            . " |" . PHP_EOL
-            . "/|\\" . PHP_EOL . PHP_EOL;
-
-        return $hangman;
     }
 }
