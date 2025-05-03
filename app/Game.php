@@ -32,7 +32,6 @@ final class Game
         Words::getInstance();
 
         do {
-            $input = mb_strtoupper(readline("\nНачнем игру?\nВведите Да[Д] или Нет[Н]: "));
             $input = mb_strtoupper(readline(PHP_EOL . "Начнем игру?" . PHP_EOL ."Введите Да[Д] или Нет[Н]: "));
 
             if ($input === 'Д') {
@@ -41,12 +40,10 @@ final class Game
             } elseif ($input === 'Н') {
                 break;
             } else {
-                echo "Неизвестная команда\n";
                 echo "Неизвестная команда" . PHP_EOL;
             }
         } while (true);
 
-        echo "Игра завершена\n";
         echo "Игра завершена" . PHP_EOL;
     }
 
@@ -65,8 +62,13 @@ final class Game
             $this->printGuessWord();
             $this->printGameStats();
 
-            $playerInput = mb_strtoupper(readline("\nВведите символ: "));
             $playerInput = mb_strtoupper(readline(PHP_EOL . "Введите символ: "));
+
+            if (!$this->validatePlayerInput($playerInput)) {
+                $this->printValidationError("Некорректный символ" . PHP_EOL);
+                continue;
+            }
+
             $this->updateInputHistory($playerInput);
 
             if (str_contains($this->word, $playerInput)) {
@@ -109,7 +111,6 @@ final class Game
 
     private function printGuessWord(): void
     {
-        echo $this->guessWord . "\n";
         echo $this->guessWord . PHP_EOL;
     }
 
@@ -117,12 +118,10 @@ final class Game
     {
         if ($this->gameStatus === GameStatus::WIN) {
             $this->printGuessWord();
-            echo "\nВы победили!\n";
             echo PHP_EOL . "Вы победили!" . PHP_EOL;
         }
 
         if ($this->gameStatus === GameStatus::LOSE) {
-            echo "\nВы проиграли!\n";
             echo PHP_EOL . "Вы проиграли!" . PHP_EOL;
         }
     }
@@ -147,5 +146,15 @@ final class Game
         $this->printPlayerErrors();
         echo "\t";
         $this->printPlayerInputHistory();
+    }
+
+    private function validatePlayerInput(string $input): bool
+    {
+        return !(mb_strlen($input) > 1);
+    }
+
+    private function printValidationError(string $message): void
+    {
+        echo $message;
     }
 }
