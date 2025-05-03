@@ -32,7 +32,7 @@ final class Game
         Words::getInstance();
 
         do {
-            $input = mb_strtoupper(readline(PHP_EOL . "Начнем игру?" . PHP_EOL ."Введите Да[Д] или Нет[Н]: "));
+            $input = mb_strtoupper(readline(PHP_EOL . "Начнем игру?" . PHP_EOL . "Введите Да[Д] или Нет[Н]: "));
 
             if ($input === 'Д') {
                 $this->initialize();
@@ -66,6 +66,11 @@ final class Game
 
             if (!$this->validatePlayerInput($playerInput)) {
                 $this->printValidationError("Некорректный символ" . PHP_EOL);
+                continue;
+            }
+
+            if (!$this->validateRepeatInput($playerInput)) {
+                $this->printValidationError("Вы уже вводили этот символ" . PHP_EOL);
                 continue;
             }
 
@@ -156,5 +161,10 @@ final class Game
     private function printValidationError(string $message): void
     {
         echo $message;
+    }
+
+    private function validateRepeatInput(string $input): bool
+    {
+        return !(in_array($input, $this->playerInputHistory));
     }
 }
