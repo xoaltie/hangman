@@ -19,7 +19,8 @@ final class Game
         HangmanDrawing::getInstance();
 
         do {
-            $input = mb_strtoupper(readline(PHP_EOL . "Начнем игру?" . PHP_EOL . "Введите Да[Д] или Нет[Н]: "));
+            echo PHP_EOL . "Начнем игру?" . PHP_EOL . "Введите Да[Д] или Нет[Н]: ";
+            $input = mb_strtoupper(readline());
 
             if ($input === 'Д') {
                 $this->initialize();
@@ -49,7 +50,8 @@ final class Game
             $this->printGuessWord();
             $this->printGameStats();
 
-            $playerInput = mb_strtoupper(readline(PHP_EOL . "Введите символ: "));
+            echo PHP_EOL . "Введите символ: ";
+            $playerInput = mb_strtoupper(readline());
 
             if (!$this->validatePlayerInput($playerInput)) {
                 $this->printValidationError("Некорректный символ" . PHP_EOL);

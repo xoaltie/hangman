@@ -6,6 +6,6 @@ use App\Game;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-echo "Добро пожаловать в игру \"Виселица\"!\n";
+echo "Добро пожаловать в игру \"Виселица\"!" . PHP_EOL;
 
 (new Game())->start();
