@@ -7,25 +7,11 @@ use App\Enums\GameStatus;
 final class Game
 {
     private const int MAX_ERRORS = 6;
-    private static ?Game $instance = null;
     private string $word;
     private string $guessWord;
     private int $errorCount;
     private GameStatus $gameStatus;
     private array $playerInputHistory;
-
-    private function __construct()
-    {
-    }
-
-    public static function getInstance(): Game
-    {
-        if (self::$instance === null) {
-            self::$instance = new Game();
-        }
-
-        return self::$instance;
-    }
 
     public function start(): void
     {
